@@ -1,0 +1,17 @@
+First, the code checks whether the given number of arguments is sufficient. 
+Since we need two input files and an output file as an argument, 
+the minimum number of arguments we need is 4. If the number of argument is less than 4, 
+the program returns and outputs a message stating what and how many arguments are needed. 
+Otherwise, the code continues. The output file is opened (or created) using the open() system call.
+This creates a file descriptor. If the value of the file descriptor is negative, then the file 
+can’t be opened and the code exits. Then, I loop through the input files. The loop loops from the 
+second argument to the second to last argument since these arguments are all the input files. 
+For each file, the code opens the file for read. If the value of the file descriptor is negative, 
+then the file can’t be opened and the function outputs that the file can’t be read and the function 
+returns. Otherwise, the code runs a function called CopyFile. In CopyFile, the file is read 
+character by character until EOF is reached. This occurs in a while loop. Each character is
+written to the output file during each iteration by calling WriteFile. In WriteFile, the 
+write system call is used and we pass in the output file file descriptor as a parameter 
+along with the buffer and the length of the buffer. This occurs for all of the input files. 
+Thus, even if one input file can’t be read, the rest are read and are written to the output 
+file. This code was then run using strace and the output was written to strace_results.txt.
