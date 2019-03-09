@@ -1,0 +1,38 @@
+Results:
+Process A is now running
+Process A, pid=49670, forked process B, pid=49671
+Process A, pid=49670, forked process C, pid=49672
+Process A is waitting for children B and C to terminate
+Process B is now running
+Process B, pid=49671, forked process D, pid=49673
+Process B is waitting for child D to terminate
+Process C is now running
+Process C is now terminating
+Process C exits with return value 6
+Process D is now running
+Process D is now terminating
+Process D exits with return value 10
+Process B is now running again
+Process B is now terminating
+Process B exits with return value 4
+Process A is now running again
+Process A is now terminating
+Process A exits with return value 2
+
+Design:
+This code starts with one process, "process A", which forks process B.
+B is the child and runs before A, so we send it to sleep, so A is the running process.
+A then forks process C, and C goes to sleep immediately.
+A will wait for B & C to terminate.
+B will wake up, and fork D; D goes to sleep; B will wait for D to terminate.
+Now C wakes up, and terminates with return value 6.
+Then D wakes up, terminates with return value 10, allows B to terminate with return value 4.
+Now both B and C has terminated, A will terminate with return value 2.
+
+Solutions:
+1.
+If process A is terminated prematurely, its children (process B and C) will have become children of the init process (the process launched as the first user process by the kernel with the process id = 1).
+2.
+If I display the process tree with root pstree(getpid()) instead of pstree(pid) in main(), it will first find out the current process ID, then display the process tree from the current process ID. Because there is an additional process made by the user, this process is in the tree, too.
+3.
+The maximum random I can generate depends on the computer. I can generate as many as I want, but there will be a limit as for how many processes I can run on the specific machine.

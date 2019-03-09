@@ -1,7 +1,0 @@
-Solutions:
-1.
-If process A is terminated prematurely, its children (process B and C) will have become children of the init process (the process launched as the first user process by the kernel with the process id = 1).
-2.
-If I display the process tree with root pstree(getpid()) instead of pstree(pid) in main(), it will first find out the current process ID, then display the process tree from the current process ID. Because there is an additional process made by the user, this process is in the tree, too.
-3.
-The maximum random I can generate depends on the computer. I can generate as many as I want, but there will be a limit as for how many processes I can run on the specific machine.
