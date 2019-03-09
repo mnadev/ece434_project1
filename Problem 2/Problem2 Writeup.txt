@@ -19,7 +19,16 @@ For Part A:
 		Input 100: 0.006s
 		Input 1k: 0.009s
 		Input 10k: 0.031s
-		Input 100k: 0.205s
+		Input 100k: 0.185s
+		
+For Part B:
+
+	Timings:
+		Input 10: 0.005s
+		Input 100: 0.008s
+		Input 1k: 0.011s
+		Input 10k: 0.016s
+		Input 100k: 0.036s
 	
 For Part C:
 	Design decisions:
