@@ -1,0 +1,5 @@
+By executing the following command, you are overwriting the c program with the compiled executable file.  This is because the -o flag specifies an output file.  And by specifying the file name to be the same as the original c source file you overwrite the original source file.
+
+-Wall simply prints out any and all error or diagonistic information during the compilation process.
+
+Upon further inspection though, this would not happen in reality because GCC is smart enough to recognize that the output compiled file is overwriting the original file and will stop compilation immidiately.
