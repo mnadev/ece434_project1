@@ -22,7 +22,11 @@ For Part A:
 		Input 100k: 0.185s
 		
 For Part B:
-
+	Design decisions:
+		This algorithm is very similar to part C's divide and conquer approach (but slightly modified).  In this design decision we use a skewed binary process tree due to the requirement of the assignment.
+		Because this part was created seperately from part A and B, the design is slightly different.  The lines are read, and completely parsed, in the very beginning, in the parent process.  The numbers from the file are stored in an array of integers, reading each line one-by-one and using atoi() on each line.  The array of numbers is shared with the children processes through shared memory (shm).  This allows for all processes to refer to the same array of numbers without wasting any space.
+		Upon forking, the array of numbers is split in half, the parent analyses the first half, in sequential order, for the minimum, maximum, and sum.  The second half is analyzed by the child process, which repeats the same process as the parent process.  It too cuts it's half in half, completing it's first half and sending the other half to the child process it creates.
+		Upon the completion of wait, and reading the pipe established between the parent and child processes, the parent process compares the child min, and max with its own, and combines the two sums.  These numbers are then returned to it's parent.
 	Timings:
 		Input 10: 0.005s
 		Input 100: 0.008s
