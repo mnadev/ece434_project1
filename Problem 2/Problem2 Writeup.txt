@@ -1,0 +1,64 @@
+In general: 
+	The assumptions that were made when writing the three programs are the following:
+	-The input integers are always positive, thus the highest number that could be processed is 32767.
+
+For Part A:
+	Design decisions:
+		Due to the nature of the problem, the most efficient way of computing the problem is by keeping track of the
+		min, max, and sum of integers as the integers are being read in. This avoids the need to store all the integers
+		into an array, thus saving the time needed to allocate and reallocate memory for the array, and the time needed
+		to traverse the array after already reading in all the integers.
+		Integers are read in by opening the input text file into a file descriptor, reading the file descriptor one
+		character at a time and adding that character into a character array of size 6, which means that the character 
+		array can hold up to 5 characters along with the null terminating character needed to make the array a "string".
+		When a new line is encountered, this array is passed into atoi() to get the corresponding integer, and comparisons
+		are performed against the existing min and max.
+		Nothing was particularly learned in this problem, as it only involved reading in a file.
+	Timings:
+		Input 10: 0.005s
+		Input 100: 0.006s
+		Input 1k: 0.009s
+		Input 10k: 0.031s
+		Input 100k: 0.205s
+	
+For Part C:
+	Design decisions:
+		It will first be noted that this implementation is not the fastest method of accomplishing the problem,
+		as wait() calls are performed after fork() calls, eliminating the parallelism that could have been achieved
+		using multiple processes. This however was a necessity to prevent the creation of too many processes at once, 
+		especially in the case where the input file contained 100k integers. With the implementation used, the maximum
+		number of processes running at a single time is base 2 log(input size), which when the input size is 100k, means
+		only about 16 processes are running at a single time, compared to the potentially 100k processes that could be running
+		given the algorithm used, which is as follows:
+			The algorithm is a divide and conquer algorithm, where each process creates two processes, each handling the 
+			left and right halves of the array containing all input integers. This division occurs until a process only
+			has to handle at most two elements in the array. The process then computes the minimum and maximum integers, 
+			along with their sum, and returns the min, max, and sum in a struct back to the parent, which performs the same
+			comparisons until the first process has the total minimum, total maximum, and total sum. Normally this algorithm
+			would best be implemented recursively, but using it with multiple processes allows for a nice binary process tree.
+		The input file is read in the original parent process and copied over to shared memory. This is done so that there exists
+		only one copy of the integer array at once as opposed to having to copy the array for each process each time a fork() is 
+		performed. 
+		Between each immediate parent and child, pipes are used to transmit the min, max, and sum which are contained in a struct.
+	Timings:
+		Input 10: 0.013s
+		Input 100: 0.101s
+		Input 1k: 0.883s
+		Input 10k: 10.739s
+		Input 100k: 2m 4.565s
+	Regarding limitation of process numbers:
+		Theoretically, there should always be a limit in the number of processes that are running at the same time. If
+		all the processes that were created to process the input file were run at the same time, we would likely run into
+		issues as the input file size grew. If an implementation similar to the one used with our Part C where a wait() is performed
+		after each fork(), then as mentioned, the number of running processes drastically decreases.
+		
+Overall Comments:
+	It is noted that the single process program (Part A) has the fastest run time, which is expected for several reasons.
+	The first reason is that the algorithm used for the single process program never has to allocate and reallocate memory, 
+	since all the computation is done when reading in the file. The second is that no new processes have to be generated, which
+	can incur a lot of overhead that contributes to a longer program run time. This factor is likely the main contributing factor
+	to the longer runtime of the multiprocess program. The third is the fact that the instructions of the problem state that 
+	the output of the program should be printed in a text file. It was unclear if the Linux pipe command ("|") was to be used, or
+	if the program itself was to write to an output file. For Parts A and C, it was interpretted as the latter, which meant that 
+	each process in Part C had to write to a file, and file I/O is a very slow operation. In fact, testing the program without writing
+	to an output file reduced the program runtime by about 19 seconds. 
