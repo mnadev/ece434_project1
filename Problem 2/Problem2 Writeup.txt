@@ -54,20 +54,21 @@ For Part C:
 		Input 10k: 2.219s
 		Input 100k: 6.970s
 	Regarding limitation of process numbers:
-		There does not appear to be a limit to the number of processes that are created. For the input file size of 100k integers,
-		there should theoretically be at least 10k processes running at the same time, but this poses no issue and the program
+		There does not appear to be a limit to the number of processes that are created. 
+		For the input file size of 100k integers, there should theoretically be at least 10k processes 
+		running at the same time, but this poses no issue and the program
 		still runs successfully. The number of processes running at the same time could potentially be less however since 
 		processes that were created earlier will terminate earlier due to having finished computation earlier. For a much
 		greater input file length, there could potentially be a process limit due to limited system resources, but this was
 		not encountered with the given input sizes for this problem.
 		
 Overall Comments:
-	It is noted that the single process program (Part A) has the fastest run time, which is expected for several reasons.
+	It is noted that the single process program (Part A) has the fastest run time for small input sizes whereas Part B has a faster
+	run time for larger input sizes, which is expected for several reasons.
 	The first reason is that the algorithm used for the single process program never has to allocate and reallocate memory, 
-	since all the computation is done when reading in the file. The second is that no new processes have to be generated, which
+	since all the computation is done when reading in the file, so it is faster for smaller input sizes. 
+	The second is that no new processes have to be generated for the single process program, which
 	can incur a lot of overhead that contributes to a longer program run time. This factor is likely the main contributing factor
-	to the longer runtime of the multiprocess program. The third is the fact that the instructions of the problem state that 
-	the output of the program should be printed in a text file. It was unclear if the Linux pipe command ("|") was to be used, or
-	if the program itself was to write to an output file. For Parts A and C, it was interpretted as the latter, which meant that 
-	each process in Part C had to write to a file, and file I/O is a very slow operation. In fact, testing the program without writing
-	to an output file reduced the program runtime by about 19 seconds. 
+	to the longer runtime of the multiprocess program of Part C.
+	The program of PartB is faster with larger input sizes due to the benefits of dividing the work outweighting the cost
+	of needing to generate new processes. 
