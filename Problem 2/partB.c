@@ -67,7 +67,7 @@ int main(int argc, char ** argv)
 	int MAXLENGTH = 1000;
 	int AMOUNTOFNUMBERS = atoi(argv[2]);
 	int sharedMemID = shmget(IPC_PRIVATE, sizeof(int) * AMOUNTOFNUMBERS, IPC_CREAT | 0666);
-	printf("%d\n", sharedMemID);
+	//printf("%d\n", sharedMemID);
 	int * numbers = shmat(sharedMemID, NULL, 0);
 	int * numbersT = numbers;
 	char str[MAXLENGTH];
@@ -79,7 +79,7 @@ int main(int argc, char ** argv)
 	}
 	int firstIndex = 0;
 	int lastIndex = AMOUNTOFNUMBERS - 1;
-	printf("%d\n",lastIndex);
+	//printf("%d\n",lastIndex);
 	int * minMaxSum = findMinMaxSum(numbers, firstIndex, lastIndex);
 	printf("Min=%d\nMax=%d\nSum=%d\n",minMaxSum[0],minMaxSum[1],minMaxSum[2]);
     return 0;
