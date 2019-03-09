@@ -1,0 +1,15 @@
+Hi I'm process 5716 and my parent is 5715
+Hi I'm process 5717 and my parent is 5716
+Hi I'm process 5718 and my parent is 5717
+Hi I'm process 5719 and my parent is 5718
+Hi I'm process 5720 and my parent is 5719
+Hi I'm process 5721 and my parent is 5720
+Hi I'm process 5722 and my parent is 5721
+Hi I'm process 5723 and my parent is 5722
+Hi I'm process 5724 and my parent is 5723
+Hi I'm process 5725 and my parent is 5724
+Hi I'm process 5726 and my parent is 5725
+Hi I'm process 5727 and my parent is 5726
+Min=8
+Max=32763
+Sum=163804824

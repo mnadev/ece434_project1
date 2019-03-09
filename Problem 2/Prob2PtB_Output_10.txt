@@ -1,0 +1,5 @@
+Hi I'm process 5678 and my parent is 5677
+Hi I'm process 5679 and my parent is 5678
+Min=3
+Max=14516
+Sum=30340

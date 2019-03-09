@@ -1,0 +1,19 @@
+Hi I'm process 5535 and my parent is 5534
+Hi I'm process 5536 and my parent is 5535
+Hi I'm process 5537 and my parent is 5536
+Hi I'm process 5538 and my parent is 5537
+Hi I'm process 5539 and my parent is 5538
+Hi I'm process 5540 and my parent is 5539
+Hi I'm process 5541 and my parent is 5540
+Hi I'm process 5542 and my parent is 5541
+Hi I'm process 5543 and my parent is 5542
+Hi I'm process 5544 and my parent is 5543
+Hi I'm process 5545 and my parent is 5544
+Hi I'm process 5546 and my parent is 5545
+Hi I'm process 5547 and my parent is 5546
+Hi I'm process 5548 and my parent is 5547
+Hi I'm process 5549 and my parent is 5548
+Hi I'm process 5550 and my parent is 5549
+Min=1
+Max=32765
+Sum=1639670692

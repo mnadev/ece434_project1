@@ -8,7 +8,7 @@
 #include <sys/shm.h>
 #include <limits.h>
 
-int* findMinMaxSum(int * nums, int firstIndex, int lastIndex) {
+int* findMinMaxSum(FILE* output, int * nums, int firstIndex, int lastIndex) {
 	int mid = (lastIndex - firstIndex)/2;
 	if(mid == 0) {
 		//don't fork
@@ -16,7 +16,8 @@ int* findMinMaxSum(int * nums, int firstIndex, int lastIndex) {
 		minMax[0] = INT_MAX; //min
 		minMax[1] = INT_MIN; //max
 		minMax[2] = 0; //sum
-		for(int i = firstIndex; i <= lastIndex; i++ ) {
+		int i;
+		for(i = firstIndex; i <= lastIndex; i++ ) {
 			minMax[2] += nums[i];
 			if(nums[i] < minMax[0]) {
 				minMax[0] = nums[i];
@@ -37,7 +38,8 @@ int* findMinMaxSum(int * nums, int firstIndex, int lastIndex) {
 		minMax[0] = INT_MAX; //min
 		minMax[1] = INT_MIN; //max
 		minMax[2] = 0; //sum
-		for(int i = firstIndex; i <= mid; i++ ) {
+		int i;
+		for(i = firstIndex; i <= mid; i++ ) {
 			minMax[2] += nums[i];
 			if(nums[i] < minMax[0]) {
 				minMax[0] = nums[i];
@@ -54,8 +56,9 @@ int* findMinMaxSum(int * nums, int firstIndex, int lastIndex) {
 		wait(&child);
 		return minMax;
     }else{
-    	printf("Hi I'm process %d and my parent is %d.\n", getpid(), getppid());
-    	int * minMaxSum = findMinMaxSum(nums, mid+1, lastIndex);
+		fprintf(output, "Hi I'm process %d and my parent is %d\n", getpid(), getppid());
+		fflush(output);
+    	int * minMaxSum = findMinMaxSum(output, nums, mid+1, lastIndex);
     	write(pipeFD[1],minMaxSum, sizeof(int)*3);
     }
 
@@ -64,10 +67,10 @@ int* findMinMaxSum(int * nums, int firstIndex, int lastIndex) {
 
 int main(int argc, char ** argv)
 {
+	FILE* output = fopen("Prob2PtB_Output.txt", "w");
 	int MAXLENGTH = 1000;
 	int AMOUNTOFNUMBERS = atoi(argv[2]);
 	int sharedMemID = shmget(IPC_PRIVATE, sizeof(int) * AMOUNTOFNUMBERS, IPC_CREAT | 0666);
-	//printf("%d\n", sharedMemID);
 	int * numbers = shmat(sharedMemID, NULL, 0);
 	int * numbersT = numbers;
 	char str[MAXLENGTH];
@@ -79,8 +82,8 @@ int main(int argc, char ** argv)
 	}
 	int firstIndex = 0;
 	int lastIndex = AMOUNTOFNUMBERS - 1;
-	//printf("%d\n",lastIndex);
-	int * minMaxSum = findMinMaxSum(numbers, firstIndex, lastIndex);
-	printf("Min=%d\nMax=%d\nSum=%d\n",minMaxSum[0],minMaxSum[1],minMaxSum[2]);
+	int * minMaxSum = findMinMaxSum(output, numbers, firstIndex, lastIndex);
+	fprintf(output, "Min=%d\nMax=%d\nSum=%d\n",minMaxSum[0],minMaxSum[1],minMaxSum[2]);
+	fflush(output);
     return 0;
 }
